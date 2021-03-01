@@ -6,13 +6,11 @@
 #             start_game function only works on first time clicking Start on menu
 ##################################
 
-# Import Moduless
+# Import Modules
 import pygame
-from pygame.locals import *
 import pygame_menu
 import time
 import random
-import helpers
 
 
 # Set pygame window constants
@@ -31,6 +29,7 @@ YELLOW = (255, 255, 0)   # solution dot colour
 BLACK = (0, 0, 0)
 
 font = "Retro.ttf"
+
 # Maze specific variables
 grid = []
 stack = []
@@ -43,17 +42,17 @@ clock = pygame.time.Clock()
 
 def colour_above(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y - w + 1, w - 1, 2 * w - 1), 0)
-    # pygame.display.update()
+    pygame.display.update()
 
 
 def colour_right(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y + 1, 2 * w - 1, w - 1), 0)
-    # pygame.display.update()
+    pygame.display.update()
 
 
 def colour_below(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y + 1, w - 1, 2 * w - 1), 0)
-    # pygame.display.update()
+    pygame.display.update()
 
 
 def colour_left(x, y, w):
@@ -67,7 +66,7 @@ def add_dot(x, y,cell_width):
     pygame.display.update()
 
 
-def show_solution(x1, y1, x2, y2,cell_width,solution_path):
+def show_solution(x1, y1, x2, y2, cell_width):
     add_dot(x2, y2,cell_width)
     while (x2, y2) != (x1, y1):
         x2, y2 = solution_path[x2, y2]
@@ -159,12 +158,11 @@ def generate_maze(x, y, w):
         else:
             x, y = stack.pop()
             pygame.draw.rect(window, GREEN, (x + 1, y + 1, w - 2, w - 2), 0)
-            # pygame.display.update()
+            pygame.display.update()
             time.sleep(TIMEOUT)
-            
             # re-colour the path
             pygame.draw.rect(window, BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
-            # pygame.display.update()
+            pygame.display.update()
 
 def start_game():
 
@@ -193,10 +191,10 @@ def start_game():
 
             # Set cell to start generating maze from
             ### starting_x AND starting_y MUST BE A MULTIPLE OF cell_width ###
-            dimension = 35
-            cell_width = 20
-            starting_x = 20
-            starting_y = 20
+            dimension = 10
+            cell_width = 40
+            starting_x = 40
+            starting_y = 40
             ending_x = dimension * cell_width  # BOTTOM RIGHT X COORDNIATE
             ending_y = dimension * cell_width  # BOTTOM RIGHT Y COORDINATE
 
@@ -205,7 +203,7 @@ def start_game():
             generate_maze(starting_x, starting_y, cell_width)
 
             # animate solution
-            # show_solution(starting_x, starting_y, ending_x, ending_y,cell_width,solution_path)
+            show_solution(starting_x, starting_y, ending_x, ending_y, cell_width)
 
             create_maze = False  # Indicate maze is done being created
 
@@ -215,15 +213,7 @@ pygame.init()
 window = pygame.display.set_mode((WIDTH, HEIGHT)) # Pygame surface
 pygame.display.set_caption("Maze Generator and Visualizer") # Set title of window
 
-# menu = pygame_menu.Menu(600, 800, "Welcome", theme=pygame_menu.themes.THEME_SOLARIZED) #create a pygame_menu Menu obj
-# menu.set_title("Welcome to the maze game")
-# pygame.display.update()
-
-# menu.add_button("Play", start_game)
-# menu.add_button("Quit", pygame_menu.events.EXIT)
-
-# menu.mainloop(window)
-
+# Create a new font to use
 def text_format(message, textFont, textSize, textColor):
     newFont=pygame.font.Font(textFont, textSize)
     newText=newFont.render(message, 0, textColor)
@@ -247,7 +237,7 @@ def main_menu():
                     selected="quit"
                 if event.key==pygame.K_RETURN:
                     if selected=="start":
-                        window.fill(BLUE)
+                        window.fill(PURPLE)
                         pygame.display.update()
                         start_game()
                     if selected=="quit":
