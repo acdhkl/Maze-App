@@ -15,7 +15,7 @@ import random
 
 # Set pygame window constants
 WIDTH = 800
-HEIGHT = 800
+HEIGHT = 900
 FPS = 30
 TIMEOUT = 0
 
@@ -42,22 +42,22 @@ clock = pygame.time.Clock()
 
 def colour_above(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y - w + 1, w - 1, 2 * w - 1), 0)
-    pygame.display.update()
+    # pygame.display.update()
 
 
 def colour_right(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y + 1, 2 * w - 1, w - 1), 0)
-    pygame.display.update()
+    # pygame.display.update()
 
 
 def colour_below(x, y, w):
     pygame.draw.rect(window, BLUE, (x + 1, y + 1, w - 1, 2 * w - 1), 0)
-    pygame.display.update()
+    # pygame.display.update()
 
 
 def colour_left(x, y, w):
     pygame.draw.rect(window, BLUE, (x - w + 1, y + 1, 2 * w - 1, w - 1), 0)
-    pygame.display.update()
+    # pygame.display.update()
 
 def add_dot(x, y,cell_width):
     pygame.draw.circle(
@@ -75,10 +75,10 @@ def show_solution(x1, y1, x2, y2, cell_width):
 # Function to create square grid with cell width: w, dimension: dim x dim
 def create_grid(w, dim):
     y = 0
-    for i in range(1, dim + 1):
+    for i in range(0, dim ):
         x = w
         y += w
-        for j in range(1, dim + 1):
+        for j in range(0, dim):
             # ABOVE CELL
             pygame.draw.line(window, WHITE, [x, y], [x + w, y])
 
@@ -106,7 +106,7 @@ def generate_maze(x, y, w):
     visited.add((x, y))   # add starting cell to visited set
 
     while len(stack) > 0:
-        time.sleep(TIMEOUT)  # add brief pause to make animations slower
+        # time.sleep(TIMEOUT)  # add brief pause to make animations slower
         cells = []           # create list to store unvisted neighbours of current cell
 
         if (x, y - w) not in visited and (x, y - w) in grid:  # ABOVE NEIGHBOUR
@@ -159,7 +159,7 @@ def generate_maze(x, y, w):
             x, y = stack.pop()
             pygame.draw.rect(window, GREEN, (x + 1, y + 1, w - 2, w - 2), 0)
             pygame.display.update()
-            time.sleep(TIMEOUT)
+            # time.sleep(TIMEOUT)
             # re-colour the path
             pygame.draw.rect(window, BLUE, (x + 1, y + 1, w - 2, w - 2), 0)
             pygame.display.update()
@@ -191,10 +191,10 @@ def start_game():
 
             # Set cell to start generating maze from
             ### starting_x AND starting_y MUST BE A MULTIPLE OF cell_width ###
-            dimension = 10
-            cell_width = 40
-            starting_x = 40
-            starting_y = 40
+            dimension = int(input("Enter Dimension of Maze: "))
+            cell_width = (WIDTH // dimension)-1
+            starting_x = cell_width
+            starting_y = cell_width
             ending_x = dimension * cell_width  # BOTTOM RIGHT X COORDNIATE
             ending_y = dimension * cell_width  # BOTTOM RIGHT Y COORDINATE
 
@@ -245,13 +245,13 @@ def main_menu():
                         quit()
         # Main Menu UI
         window.fill(BLUE)
-        title=text_format("Maze Game",font, 90, YELLOW)
+        title=text_format("Maze Visualizer",font, 90, YELLOW)
         if selected=="start":
-            text_start=text_format("START", font, 75, RED)
+            text_start=text_format("START", font, 75, WHITE)
         else:
             text_start = text_format("START", font, 75, BLACK)
         if selected=="quit":
-            text_quit=text_format("QUIT", font, 75, RED)
+            text_quit=text_format("QUIT", font, 75, WHITE)
         else:
             text_quit = text_format("QUIT", font, 75, BLACK)
         
@@ -265,10 +265,8 @@ def main_menu():
         window.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 360))
         pygame.display.update()
         clock.tick(FPS)
-        pygame.display.set_caption("Python - Pygame Simple Main Menu Selection")
- 
-
-
+        pygame.display.set_caption("Maze Visualizer")
+        
 main_menu()
 
 
